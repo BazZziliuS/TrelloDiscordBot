@@ -46,10 +46,11 @@ async def test():
     await bot.wait_until_ready()
     channel = bot.get_channel(discordchannel)
     await channel.send(f"🔥**Название:** {name}\n"
-     			f"📄**Описание:**\n"
-     			f"{desccardtrello}\n\n"
+     			f"📄**Описание:**{desccardtrello}\n\n"
     			f"📧**Ссылка:** https://trello.com/c/{shortlink}\n"
-     			f"🐗**Автор**: {fullName}")
+     			f"🐗**Автор**: {fullName}\n"
+			f":wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash:")
+
 
 def foo():
 	last_shortLink = shortlink
