@@ -45,15 +45,16 @@ bot = commands.Bot(command_prefix='?')
 async def test():
     await bot.wait_until_ready()
     channel = bot.get_channel(discordchannel)
-    await channel.send(f"**Название:** {name}\n\n"
-     			f"**Описание:** {desccardtrello}\n\n"
-    			f"**Ссылка:** https://trello.com/c/{shortlink}\n"
-     			f"**Автор**: {fullName}")
+    await channel.send(f"🔥**Название:** {name}\n"
+     			f"📄**Описание:**\n"
+     			f"{desccardtrello}\n\n"
+    			f"📧**Ссылка:** https://trello.com/c/{shortlink}\n"
+     			f"🐗**Автор**: {fullName}")
 
 def foo():
 	last_shortLink = shortlink
 	create_trello_card("card_nametrst", "card_descriptiontest")
-	threading.Timer(300, foo).start()
+	threading.Timer(10, foo).start()
 	if last_shortLink != shortlink:
 		bot.loop.create_task(test())
 foo()
