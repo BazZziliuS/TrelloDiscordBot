@@ -1,5 +1,5 @@
 # TrelloDiscordBot
 pip install discord		        
 Отправляет в дискорд канал сообщение с новой карточкой в трелло                 
-![image](https://user-images.githubusercontent.com/18011884/148579640-326c009d-3947-4830-8c2f-09aebfef6f9f.png)
+![image](https://user-images.githubusercontent.com/18011884/148591381-2edf780e-6497-44f5-9013-a7b27e939b3a.png)
 
