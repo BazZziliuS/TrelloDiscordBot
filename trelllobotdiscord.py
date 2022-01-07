@@ -54,7 +54,7 @@ async def test():
 def foo():
 	last_shortLink = shortlink
 	create_trello_card("card_nametrst", "card_descriptiontest")
-	threading.Timer(10, foo).start()
+	threading.Timer(600, foo).start()
 	if last_shortLink != shortlink:
 		bot.loop.create_task(test())
 foo()
