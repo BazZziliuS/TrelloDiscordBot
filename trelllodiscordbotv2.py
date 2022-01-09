@@ -26,6 +26,7 @@ namelistq = ""
 fullnameq = ""
 desccardtrelloq = ""
 idcardtrelloq = ""
+cardform = ""
 
 def trellonewcard():
 	
@@ -45,30 +46,34 @@ def trellonewcard():
 	jsonObj = {"key":trello_key,"token":trello_token}
 	new_card = requests.get(zaproscard, json=jsonObj)
 	json_data = json.loads(new_card.text)
-	
+
 	desccardtrello = json_data["desc"]
 
 def trelloallcard():
 
-	global nameq,descq,shortlinkq,namelistq,fullnameq,idcardtrelloq,desccardtrelloq
+	global nameq,descq,shortlinkq,namelistq,fullnameq,idcardtrelloq,desccardtrelloq,cardform
 
 	zaproscardd = main_trello_endpoint+"boards/"+boardnumber+"/actions"
 	jsonObj = {"key":trello_key,"token":trello_token}
 	new_cardd = requests.get(zaproscardd, json=jsonObj)
 	json_data = json.loads(new_cardd.text)
 
-	nameq = json_data[0]["data"]["card"]["name"]
-	shortlinkq = json_data[0]["data"]["card"]["shortLink"]
-	namelistq = json_data[0]["data"]["list"]["name"]
-	fullnameq = json_data[0]["memberCreator"]["fullName"]
-	idcardtrelloq = json_data[0]["data"]["card"]["id"]	
-	
-	zaproscard = main_trello_endpoint+"card/"+idcardtrelloq
-	jsonObj = {"key":trello_key,"token":trello_token}
-	new_cardd = requests.get(zaproscard, json=jsonObj)
-	json_dataq = json.loads(new_cardd.text)
-	
-	desccardtrelloq = json_dataq["desc"]
+	cardform = json_data[0]["type"]
+	print(cardform)
+	if cardform == "createCard" or cardform == "updateCard":
+
+		nameq = json_data[0]["data"]["card"]["name"]
+		shortlinkq = json_data[0]["data"]["card"]["shortLink"]
+		namelistq = json_data[0]["data"]["list"]["name"]
+		fullnameq = json_data[0]["memberCreator"]["fullName"]
+		idcardtrelloq = json_data[0]["data"]["card"]["id"]	
+
+		zaproscard = main_trello_endpoint+"card/"+idcardtrelloq
+		jsonObj = {"key":trello_key,"token":trello_token}
+		new_cardd = requests.get(zaproscard, json=jsonObj)
+		json_dataq = json.loads(new_cardd.text)
+
+		desccardtrelloq = json_dataq["desc"]
 
 
 
@@ -87,7 +92,7 @@ async def test():
 async def tests():
     await bot.wait_until_ready()
     channelq = bot.get_channel(discordchannel2)
-    await channelq.send(f"📊**Доска**: {namelistq}\n"
+    await channelq.send(f"📊**Доска**: {namelistq}\n\n"
     			f"🔥**Название:** {nameq}\n"
      			f"📄**Описание:** {desccardtrelloq}\n"
     			f"📧**Ссылка:** https://trello.com/c/{shortlinkq}\n"
@@ -114,7 +119,10 @@ def food():
 		bot.loop.create_task(tests())
 food()
 
-
+@bot.event
+async def on_ready():
+    activity = discord.Activity(type=discord.ActivityType.watching, name="github.com/BazZziliuS")
+    await bot.change_presence(status=discord.Status.idle, activity=activity)
 
 bot.run(discordtokenbot)
 
