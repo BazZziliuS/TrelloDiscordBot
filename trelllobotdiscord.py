@@ -6,11 +6,11 @@ import time, threading
 
 
 main_trello_endpoint = "https://api.trello.com/1/"
-trello_key ="Ключ"
-trello_token = "Токен"
-application_list_id = "Айди категории"
-discordchannel = Айди канала
-discordtokenbot = 'Токен'
+trello_key ="Ключ_Trello"
+trello_token = "Токен_Trello"
+application_list_id = "Айди_категории_Trello"
+discordchannel = Айди_канала
+discordtokenbot = 'Токен_DiscordBot'
 
 new_card = ""
 name = ""
@@ -18,13 +18,12 @@ shortlink = ""
 fullName = ""
 desccardtrello = ""
 
-
-def create_trello_card(card_name, card_description):
+def trellonewcard():
 	
 	global name,shortlink,fullName,desccardtrello
 
 	zaproscard = main_trello_endpoint+"lists/"+application_list_id+"/actions"
-	jsonObj = {"key":trello_key,"token":trello_token,"name":card_name,"desc":card_description}
+	jsonObj = {"key":trello_key,"token":trello_token}
 	new_card = requests.get(zaproscard, json=jsonObj)
 	json_data = json.loads(new_card.text)
 	
@@ -34,7 +33,7 @@ def create_trello_card(card_name, card_description):
 	idcardtrello = json_data[0]["data"]["card"]["id"]	
 	
 	zaproscard = main_trello_endpoint+"cards/"+idcardtrello
-	jsonObj = {"key":trello_key,"token":trello_token,"name":card_name,"desc":card_description}
+	jsonObj = {"key":trello_key,"token":trello_token}
 	new_card = requests.get(zaproscard, json=jsonObj)
 	json_data = json.loads(new_card.text)
 	
@@ -46,15 +45,14 @@ async def test():
     await bot.wait_until_ready()
     channel = bot.get_channel(discordchannel)
     await channel.send(f"🔥**Название:** {name}\n"
-     			f"📄**Описание:**{desccardtrello}\n\n"
+     			f"📄**Описание:** {desccardtrello}\n\n"
     			f"📧**Ссылка:** https://trello.com/c/{shortlink}\n"
      			f"🐗**Автор**: {fullName}\n"
-			f":wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash:")
-
+				f":wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash::wavy_dash:")
 
 def foo():
 	last_shortLink = shortlink
-	create_trello_card("card_nametrst", "card_descriptiontest")
+	trellonewcard()
 	threading.Timer(600, foo).start()
 	if last_shortLink != shortlink:
 		bot.loop.create_task(test())
