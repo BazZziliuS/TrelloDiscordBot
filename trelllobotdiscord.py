@@ -12,19 +12,12 @@ application_list_id = "Айди_категории_Trello"
 discordchannel = Айди_канала
 discordtokenbot = 'Токен_DiscordBot'
 
-new_card = ""
-name = ""
-shortlink = ""
-fullName = ""
-desccardtrello = ""
-
-
-def create_trello_card(card_name, card_description):
+def trellonewcard():
 	
 	global name,shortlink,fullName,desccardtrello
 
 	zaproscard = main_trello_endpoint+"lists/"+application_list_id+"/actions"
-	jsonObj = {"key":trello_key,"token":trello_token,"name":card_name,"desc":card_description}
+	jsonObj = {"key":trello_key,"token":trello_token}
 	new_card = requests.get(zaproscard, json=jsonObj)
 	json_data = json.loads(new_card.text)
 	
@@ -34,7 +27,7 @@ def create_trello_card(card_name, card_description):
 	idcardtrello = json_data[0]["data"]["card"]["id"]	
 	
 	zaproscard = main_trello_endpoint+"cards/"+idcardtrello
-	jsonObj = {"key":trello_key,"token":trello_token,"name":card_name,"desc":card_description}
+	jsonObj = {"key":trello_key,"token":trello_token}
 	new_card = requests.get(zaproscard, json=jsonObj)
 	json_data = json.loads(new_card.text)
 	
@@ -53,12 +46,12 @@ async def test():
 
 def foo():
 	last_shortLink = shortlink
-	create_trello_card("card_nametrst", "card_descriptiontest")
+	trellonewcard()
 	threading.Timer(600, foo).start()
 	if last_shortLink != shortlink:
 		bot.loop.create_task(test())
 foo()
-
+# Очень важная строка если ее убрать то ничего работать не будет )))
 @bot.event
 async def on_ready():
     activity = discord.Activity(type=discord.ActivityType.watching, name="github.com/BazZziliuS")
