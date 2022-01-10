@@ -59,7 +59,6 @@ def trelloallcard():
 	json_data = json.loads(new_cardd.text)
 
 	cardform = json_data[0]["type"]
-	print(cardform)
 	if cardform == "createCard" or cardform == "updateCard":
 
 		nameq = json_data[0]["data"]["card"]["name"]
